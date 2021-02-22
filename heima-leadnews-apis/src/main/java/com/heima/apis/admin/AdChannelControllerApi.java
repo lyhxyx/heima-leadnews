@@ -1,6 +1,7 @@
 package com.heima.apis.admin;
 
 import com.heima.model.admin.dtos.ChannelDto;
+import com.heima.model.admin.pojos.AdChannel;
 import com.heima.model.common.dtos.ResponseResult;
 
 public interface AdChannelControllerApi {
@@ -11,4 +12,12 @@ public interface AdChannelControllerApi {
      * @return
      */
     ResponseResult findByNameAndPage(ChannelDto dto);
+
+
+    /**
+     * 新增频道
+     * @param adChannel
+     * @return
+     */
+    ResponseResult insert(AdChannel adChannel);
 }

@@ -14,6 +14,8 @@ import com.heima.model.common.enums.AppHttpCodeEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class AdChannelServiceImpl extends ServiceImpl<AdChannelMapper, AdChannel> implements AdChannelService {
 
@@ -42,5 +44,24 @@ public class AdChannelServiceImpl extends ServiceImpl<AdChannelMapper, AdChannel
         ResponseResult responseResult = new PageResponseResult(dto.getPage(),dto.getSize(),(int)page.getTotal());
         responseResult.setData(page.getRecords());
         return responseResult;
+    }
+
+
+    @Override
+    public ResponseResult insert(AdChannel adChannel) {
+        //1.判断参数是否为空
+        if(adChannel==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.添加必要字段的值
+        adChannel.setIsDefault(true);
+        adChannel.setCreatedTime(new Date());
+
+        //3.执行添加
+        save(adChannel);
+
+        //4.响应数据
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 }
