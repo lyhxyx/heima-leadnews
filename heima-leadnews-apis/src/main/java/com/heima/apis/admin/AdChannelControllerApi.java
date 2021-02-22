@@ -28,4 +28,12 @@ public interface AdChannelControllerApi {
      * @return
      */
     ResponseResult update(AdChannel adChannel);
+
+
+    /**
+     * 根据ID删除频道
+     * @param id
+     * @return
+     */
+    ResponseResult deleteById(Integer id);
 }

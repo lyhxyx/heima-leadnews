@@ -85,4 +85,30 @@ public class AdChannelServiceImpl extends ServiceImpl<AdChannelMapper, AdChannel
         //4.响应数据
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
+
+
+    @Override
+    public ResponseResult deleteById(Integer id) {
+        //1.判断参数是否为空为0
+        if(id==null || id==0){
+            return  ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.判断数据是否存在
+        AdChannel channel = getById(id);
+        if(channel==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST,"不存在的数据不能删除");
+        }
+
+        //3.判断数据是否已启用
+        if(channel.getStatus()){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"数据已启用不能删除");
+        }
+
+        //4.执行删除
+        removeById(id);
+
+        //5.响应数据
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
+    }
 }

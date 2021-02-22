@@ -30,4 +30,11 @@ public interface AdChannelService extends IService<AdChannel> {
     ResponseResult update(AdChannel adChannel);
 
 
+    /**
+     * 根据ID删除频道
+     * @param id
+     * @return
+     */
+    ResponseResult deleteById(Integer id);
+
 }
