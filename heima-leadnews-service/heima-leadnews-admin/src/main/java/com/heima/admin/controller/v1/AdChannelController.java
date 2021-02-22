@@ -34,4 +34,11 @@ public class AdChannelController implements AdChannelControllerApi {
     public ResponseResult insert(@RequestBody AdChannel adChannel) {
         return adChannelService.insert(adChannel);
     }
+
+
+    @PostMapping("/update")
+    @Override
+    public ResponseResult update(@RequestBody AdChannel adChannel) {
+        return adChannelService.update(adChannel);
+    }
 }

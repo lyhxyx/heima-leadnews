@@ -64,4 +64,25 @@ public class AdChannelServiceImpl extends ServiceImpl<AdChannelMapper, AdChannel
         //4.响应数据
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
+
+
+    @Override
+    public ResponseResult update(AdChannel adChannel) {
+        //1.判断参数是否为空
+        if(adChannel==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.查询数据是否存在
+        AdChannel channel = getById(adChannel.getId());
+        if(channel==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
+        }
+
+        //3.执行更新
+        updateById(adChannel);
+
+        //4.响应数据
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
+    }
 }
