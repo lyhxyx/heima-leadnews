@@ -159,6 +159,11 @@
             <artifactId>joda-time</artifactId>
             <version>2.10.5</version>
         </dependency>
+        <!--knife4j依赖-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+        </dependency>
 
     </dependencies>
 </project>

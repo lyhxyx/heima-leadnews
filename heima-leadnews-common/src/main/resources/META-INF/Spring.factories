@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.heima.common.config.knife4j.Swagger2Config, \
+    com.heima.common.config.swagger.SwaggerConfig
