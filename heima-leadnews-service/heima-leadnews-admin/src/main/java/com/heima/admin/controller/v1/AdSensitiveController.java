@@ -26,4 +26,9 @@ public class AdSensitiveController {
     public ResponseResult insert(@RequestBody AdSensitive adSensitive){
         return adSensitiveService.insert(adSensitive);
     }
+
+    @PostMapping("/update")
+    public ResponseResult update(@RequestBody AdSensitive adSensitive){
+        return adSensitiveService.update(adSensitive);
+    }
 }

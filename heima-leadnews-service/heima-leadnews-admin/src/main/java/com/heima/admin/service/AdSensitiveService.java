@@ -21,4 +21,12 @@ public interface AdSensitiveService extends IService<AdSensitive> {
      * @return
      */
     ResponseResult insert(AdSensitive adSensitive);
+
+
+    /**
+     * 更新敏感词
+     * @param adSensitive
+     * @return
+     */
+    ResponseResult update(AdSensitive adSensitive);
 }

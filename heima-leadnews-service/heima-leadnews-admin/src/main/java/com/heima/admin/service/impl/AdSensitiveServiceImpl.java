@@ -63,4 +63,26 @@ public class AdSensitiveServiceImpl extends ServiceImpl<AdSensitiveMapper, AdSen
         //4.响应数据
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
+
+
+    @Override
+    public ResponseResult update(AdSensitive adSensitive) {
+
+        //1.检查参数
+        if(adSensitive==null || adSensitive.getId()==null || adSensitive.getId()==0){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.确认数据是否存在
+        AdSensitive sensitive = getById(adSensitive.getId());
+        if(sensitive==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
+        }
+
+        //3.执行修改
+        updateById(adSensitive);
+
+        //4.响应数据
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
+    }
 }
