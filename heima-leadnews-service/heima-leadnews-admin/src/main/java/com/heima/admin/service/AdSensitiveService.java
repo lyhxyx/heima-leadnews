@@ -29,4 +29,11 @@ public interface AdSensitiveService extends IService<AdSensitive> {
      * @return
      */
     ResponseResult update(AdSensitive adSensitive);
+
+    /**
+     * 根据ID删除敏感词
+     * @param id
+     * @return
+     */
+    ResponseResult deleteById(Integer id);
 }
