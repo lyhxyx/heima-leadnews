@@ -1,7 +1,6 @@
 package com.heima.admin.controller.v1;
 
 import com.heima.admin.service.AdChannelService;
-import com.heima.apis.admin.AdChannelControllerApi;
 import com.heima.model.admin.dtos.AdChannelDtos;
 import com.heima.model.admin.pojo.AdChannel;
 import com.heima.model.common.dtos.ResponseResult;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/channel/")
 @Api(value = "频道管理",tags = "channel",description = "频道管理API")
-public class AdChannelController implements AdChannelControllerApi {
+public class AdChannelController{
     @Autowired
     private AdChannelService adChannelService;
     /**
@@ -36,28 +35,24 @@ public class AdChannelController implements AdChannelControllerApi {
      */
     @PostMapping("list")
     @ApiOperation("频道分页列表查询")
-    @Override
     public ResponseResult findPageByName(@RequestBody AdChannelDtos dtos){
         return adChannelService.findPageByName(dtos);
     }
 
     @PostMapping("save")
     @ApiOperation("新增频道")
-    @Override
     public ResponseResult insert(@RequestBody AdChannel adChannel) {
         return adChannelService.insert(adChannel);
     }
 
     @PostMapping("update")
     @ApiOperation("修改频道")
-    @Override
     public ResponseResult update(@RequestBody AdChannel adChannel) {
         return adChannelService.update(adChannel);
     }
 
     @PostMapping("del/{id}")
     @ApiOperation("删除频道")
-    @Override
     public ResponseResult deleteById(@PathVariable("id") Integer id) {
         return adChannelService.deleteById(id);
     }
