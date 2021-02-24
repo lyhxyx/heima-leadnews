@@ -1,6 +1,7 @@
 package com.heima.common.config.exception;
 
 import com.heima.model.common.dtos.ResponseResult;
+import com.heima.model.common.enums.AppHttpCodeEnum;
 
 /**
  * @ProjectName: heima-leadnews-371
@@ -13,11 +14,11 @@ import com.heima.model.common.dtos.ResponseResult;
  * Copyright: Copyright (c) 2021
  */
 public class CustomException extends RuntimeException{
-    private ResponseResult responseResult;
-    public CustomException(ResponseResult responseResult){
-        this.responseResult=responseResult;
+    private AppHttpCodeEnum appHttpCodeEnum;
+    public CustomException(AppHttpCodeEnum appHttpCodeEnum){
+        this.appHttpCodeEnum=appHttpCodeEnum;
     }
-    public ResponseResult getResponseResult(){
-        return responseResult;
+    public AppHttpCodeEnum getAppHttpCodeEnum(){
+        return appHttpCodeEnum;
     }
 }

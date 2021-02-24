@@ -1,9 +1,11 @@
 package com.heima.admin.controller.v1;
 
 import com.heima.admin.service.AdChannelService;
+import com.heima.common.config.exception.CustomException;
 import com.heima.model.admin.dtos.AdChannelDtos;
 import com.heima.model.admin.pojo.AdChannel;
 import com.heima.model.common.dtos.ResponseResult;
+import com.heima.model.common.enums.AppHttpCodeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,9 @@ public class AdChannelController{
     @PostMapping("del/{id}")
     @ApiOperation("删除频道")
     public ResponseResult deleteById(@PathVariable("id") Integer id) {
+        if (true){
+            throw new CustomException(AppHttpCodeEnum.DATA_EXIST);
+        }
         return adChannelService.deleteById(id);
     }
 }

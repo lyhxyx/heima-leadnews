@@ -29,8 +29,8 @@ public class ExceptionCatch {
     }
     @ExceptionHandler(CustomException.class)
     public ResponseResult exception(CustomException customException){
-        customException.printStackTrace();
-        log.error("catch exception:{}",customException.getMessage());
-        return customException.getResponseResult();
+        System.out.println(customException);
+        log.error("catch exception:{}",customException);
+        return ResponseResult.errorResult(customException.getAppHttpCodeEnum());
     }
 }
