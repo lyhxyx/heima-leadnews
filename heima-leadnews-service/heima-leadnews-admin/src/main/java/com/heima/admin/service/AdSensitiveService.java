@@ -13,4 +13,12 @@ public interface AdSensitiveService extends IService<AdSensitive> {
      * @return
      */
     ResponseResult findByNameAndPage(SensitiveDto dto);
+
+
+    /**
+     * 新增敏感词
+     * @param adSensitive
+     * @return
+     */
+    ResponseResult insert(AdSensitive adSensitive);
 }

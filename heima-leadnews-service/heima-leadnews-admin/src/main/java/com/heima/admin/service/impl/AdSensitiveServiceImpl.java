@@ -14,6 +14,8 @@ import com.heima.model.common.enums.AppHttpCodeEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class AdSensitiveServiceImpl extends ServiceImpl<AdSensitiveMapper, AdSensitive> implements AdSensitiveService {
 
@@ -42,5 +44,23 @@ public class AdSensitiveServiceImpl extends ServiceImpl<AdSensitiveMapper, AdSen
         responseResult.setData(page.getRecords());
 
         return responseResult;
+    }
+
+
+    @Override
+    public ResponseResult insert(AdSensitive adSensitive) {
+        //1.检查参数
+        if(adSensitive==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.设置其他字段值
+        adSensitive.setCreatedTime(new Date());
+
+        //3.执行保存
+        save(adSensitive);
+
+        //4.响应数据
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 }
