@@ -25,8 +25,16 @@ public class ExceptionCatch {
         e.printStackTrace();
         //记录日志
         log.error("catch Exception:{}",e.getMessage());
-        return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR);
+        return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR,"系统正忙");
     }
+    /**
+     * @Author: Administrator
+     * @Date:21:56 2021/2/24
+     * @Parms [customException]
+     * @ReturnType: com.heima.model.common.dtos.ResponseResult
+     * @Description: 捕获可预知异常
+     * @version: 1.0
+     */
     @ExceptionHandler(CustomException.class)
     public ResponseResult exception(CustomException customException){
         System.out.println(customException);
