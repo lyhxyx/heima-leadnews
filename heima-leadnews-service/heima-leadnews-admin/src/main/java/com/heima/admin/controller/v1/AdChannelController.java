@@ -53,12 +53,9 @@ public class AdChannelController{
         return adChannelService.update(adChannel);
     }
 
-    @PostMapping("del/{id}")
+    @GetMapping("del/{id}")
     @ApiOperation("删除频道")
     public ResponseResult deleteById(@PathVariable("id") Integer id) {
-        if (true){
-            throw new CustomException(AppHttpCodeEnum.DATA_EXIST);
-        }
         return adChannelService.deleteById(id);
     }
 }

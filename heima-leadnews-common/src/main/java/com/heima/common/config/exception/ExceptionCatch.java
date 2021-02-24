@@ -25,7 +25,7 @@ public class ExceptionCatch {
         e.printStackTrace();
         //记录日志
         log.error("catch Exception:{}",e.getMessage());
-        return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR,"系统正忙");
+        return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR,"系统正忙..请稍后重试");
     }
     /**
      * @Author: Administrator
