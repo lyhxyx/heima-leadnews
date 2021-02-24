@@ -109,11 +109,10 @@ public class AppJwtUtil {
     public static void main(String[] args) {
        /* Map map = new HashMap();
         map.put("id","11");*/
-        System.out.println(AppJwtUtil.getToken(1102L));
-        Jws<Claims> jws = AppJwtUtil.getJws("eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAADWLQQqEMAwA_5KzhURNt_qb1KZYQSi0wi6Lf9942NsMw3zh6AVW2DYmDGl2WabkZgreCaM6VXzhFBfJMcMARTqsxIG9Z888QLui3e3Tup5Pb81013KKmVzJTGo11nf9n8v4nMUaEY73DzTabjmDAAAA.4SuqQ42IGqCgBai6qd4RaVpVxTlZIWC826QA9kLvt9d-yVUw82gU47HDaSfOzgAcloZedYNNpUcd18Ne8vvjQA");
+//        System.out.println(AppJwtUtil.getToken(123456l));
+        Jws<Claims> jws = AppJwtUtil.getJws("eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAADWLSQrDMAwA_6JzDJEtK8tvHMshLgQMcqCl5O9VDr3NMMwXXr3CCiRBtinvrkwSHc3Iblny7MJYJHoOwXOGAWrqsCIjYcQx-gH02uzWj_ZyPl3V9Cj1TGbpErPUmnF5t_9J_JzVGvpAke8fF5Hb74UAAAA.A73f5h8C7-7iYcwaBmnPeO-tQz8I0rLH2O7ATpBnFDd4b3gv_jfUcZkWJj3hGnnL0QNslkASI5wI6_7noHgGhA");
         Claims claims = jws.getBody();
         System.out.println(claims.get("id"));
-
     }
 
 }
