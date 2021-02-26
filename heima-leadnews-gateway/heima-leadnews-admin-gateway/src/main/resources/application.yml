@@ -25,3 +25,10 @@ spring:
             - Path=/admin/**
           filters:
             - StripPrefix= 1
+        # app用户
+        - id: user
+          uri: lb://leadnews-user
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix= 1
