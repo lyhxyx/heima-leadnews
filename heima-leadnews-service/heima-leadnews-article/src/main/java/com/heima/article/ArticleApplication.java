@@ -1,4 +1,4 @@
-package com.heima.user;
+package com.heima.article;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -10,14 +10,13 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("com.heima.user.mapper")
-@EnableFeignClients(basePackages = "com.heima.apis")
-public class UserApplication {
+@MapperScan("com.heima.article.mapper")
+public class ArticleApplication {
+
 
     public static void main(String[] args) {
-        SpringApplication.run(UserApplication.class,args);
+        SpringApplication.run(ArticleApplication.class,args);
     }
-
 
     @Bean
     public PaginationInterceptor paginationInterceptor(){
