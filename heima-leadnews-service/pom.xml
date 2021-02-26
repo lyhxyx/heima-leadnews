@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>heima-leadnews-admin</module>
+        <module>heima-leadnews-user</module>
     </modules>
 
     <dependencies>
