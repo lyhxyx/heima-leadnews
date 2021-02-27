@@ -20,4 +20,5 @@ public class LoginController {
     public ResponseResult login(@RequestBody WmUserDto dto){
         return wmUserService.login(dto);
     }
+
 }
