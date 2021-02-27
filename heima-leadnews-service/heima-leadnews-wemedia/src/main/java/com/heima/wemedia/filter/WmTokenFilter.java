@@ -26,10 +26,10 @@ public class WmTokenFilter extends GenericFilterBean {
             //得到header中的信息
             String userId = request.getHeader("userId");
             if(userId != null){
-            WmUser wmUser = new WmUser();
-            wmUser.setId(Integer.valueOf(userId));
-            WmThreadLocalUtils.setUser(wmUser);
-        }
+                WmUser wmUser = new WmUser();
+                wmUser.setId(Integer.valueOf(userId));
+                WmThreadLocalUtils.setUser(wmUser);
+            }
       
         // 如果没有则直接放行
         filterChain.doFilter(request,response);

@@ -94,8 +94,6 @@ public class ApUserRealnameServiceImpl extends ServiceImpl<ApUserRealnameMapper,
             }
         }
 
-        int i = 1/0;
-
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 
