@@ -25,11 +25,11 @@ mybatis-plus:
 #OSS配置
 file:
   oss:
-    bucket-name: heimaleadnews
-    access-key-id: LTAI4G25HSmUJART11Tio4vJ
-    access-key-secret: PTLWOlfEJNGnqBQbrZa0irPDqxKmGE
-    endpoint: oss-cn-shanghai.aliyuncs.com
-    web-site: https://heimaleadnews.oss-cn-shanghai.aliyuncs.com/
+    bucket-name: hmleadnews371
+    access-key-id: LTAI4GErn4D21w2hLe24Trha
+    access-key-secret: NCcfhDbPiI01zrOQ2DriVEbstYGT8e
+    endpoint: oss-cn-beijing.aliyuncs.com
+    web-site: https://hmleadnews371.oss-cn-beijing.aliyuncs.com/
     proxy-username: aliyun-sdk-java
     socket-timeout: 10000
     idle-connection-time: 10000
