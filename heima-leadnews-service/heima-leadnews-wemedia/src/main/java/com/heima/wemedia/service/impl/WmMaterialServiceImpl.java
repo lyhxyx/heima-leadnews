@@ -2,6 +2,7 @@ package com.heima.wemedia.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heima.file.service.FileStorageService;
@@ -10,9 +11,11 @@ import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
 import com.heima.model.wemedia.dtos.WmMaterialDto;
 import com.heima.model.wemedia.pojos.WmMaterial;
+import com.heima.model.wemedia.pojos.WmNewsMaterial;
 import com.heima.model.wemedia.pojos.WmUser;
 import com.heima.utils.threadlocal.WmThreadLocalUtils;
 import com.heima.wemedia.mapper.WmMaterialMapper;
+import com.heima.wemedia.mapper.WmNewsMaterialMapper;
 import com.heima.wemedia.service.WmMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -101,7 +104,7 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
 
         //3.判断收藏字段是否有值，如果有直接按照收藏字段查询
         LambdaQueryWrapper<WmMaterial> wrapper = new LambdaQueryWrapper();
-        if(dto.getIsCollection()!=null){
+        if(dto.getIsCollection()>0){
             wrapper.eq(WmMaterial::getIsCollection, dto.getIsCollection());
         }
 
@@ -120,5 +123,67 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
         }
         responseResult.setData(wmMaterialList);
         return responseResult;
+    }
+
+    @Autowired
+    private WmNewsMaterialMapper wmNewsMaterialMapper;
+
+    @Override
+    public ResponseResult deleteById(Integer id) {
+        //1.检查参数
+        if(id==null || id==0){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.判断用户是否已登录
+        WmUser user = WmThreadLocalUtils.getUser();
+        if(user==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
+        }
+
+
+        //3.判断数据是否存在
+        WmMaterial wmMaterial = getById(id);
+        if(wmMaterial==null){
+            return  ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
+        }
+
+
+        //4.查看素材是否被关联
+        Integer count = wmNewsMaterialMapper.selectCount(Wrappers.<WmNewsMaterial>lambdaQuery().eq(WmNewsMaterial::getMaterialId, id));
+        if(count>0){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID, "素材被关联无法删除");
+        }
+
+        //5.执行删除
+        removeById(id);
+
+        //6.响应数据
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
+    }
+
+    @Override
+    public ResponseResult collect(Integer id, Short isCollect) {
+        //1.检查参数
+        if(id==null || id==0 || isCollect==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.判断用户是否已登录
+        WmUser user = WmThreadLocalUtils.getUser();
+        if(user==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
+        }
+
+        //3.判断数据是否存在
+        WmMaterial wmMaterial = getById(id);
+        if(wmMaterial==null){
+            return  ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
+        }
+
+        //4.执行更新
+        update(Wrappers.<WmMaterial>lambdaUpdate().eq(WmMaterial::getId,id).eq(WmMaterial::getUserId,user.getId()).set(WmMaterial::getIsCollection, isCollect));
+
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 }
