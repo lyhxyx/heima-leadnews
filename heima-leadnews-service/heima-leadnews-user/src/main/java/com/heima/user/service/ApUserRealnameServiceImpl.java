@@ -17,12 +17,15 @@ import com.heima.model.user.pojos.ApUserRealname;
 import com.heima.model.wemedia.pojos.WmUser;
 import com.heima.user.mapper.ApUserMapper;
 import com.heima.user.mapper.ApUserRealnameMapper;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+@Transactional
 @Service
 public class ApUserRealnameServiceImpl extends ServiceImpl<ApUserRealnameMapper, ApUserRealname> implements ApUserRealnameService {
 
@@ -54,6 +57,7 @@ public class ApUserRealnameServiceImpl extends ServiceImpl<ApUserRealnameMapper,
     }
 
 
+    @GlobalTransactional  //seata的分布式事务注解
     @Override
     public ResponseResult auth(AuthDto dto, Short status) {
         //第一部分：判断参数
@@ -89,6 +93,7 @@ public class ApUserRealnameServiceImpl extends ServiceImpl<ApUserRealnameMapper,
                 return responseResult;
             }
         }
+
 
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
