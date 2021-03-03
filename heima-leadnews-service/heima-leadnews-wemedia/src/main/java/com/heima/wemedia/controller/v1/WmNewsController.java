@@ -41,4 +41,9 @@ public class WmNewsController {
     public ResponseResult delOne(@PathVariable("id") Integer id){
         return wmNewsService.delOne(id);
     }
+
+    @PostMapping("/down_or_up")
+    public ResponseResult downOrUp(@RequestBody WmNewsDto dto) {
+        return wmNewsService.downOrUp(dto);
+    }
 }
