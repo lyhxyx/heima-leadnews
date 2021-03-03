@@ -39,4 +39,10 @@ public class AdChannelController {
     public ResponseResult deleteById(@PathVariable("id") Integer id) {
         return adChannelService.deleteById(id);
     }
+
+
+    @GetMapping("/channels")
+    public ResponseResult listAll(){
+        return ResponseResult.okResult(adChannelService.list());
+    }
 }
