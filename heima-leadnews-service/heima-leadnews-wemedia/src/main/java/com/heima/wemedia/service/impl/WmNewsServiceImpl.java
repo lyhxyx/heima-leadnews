@@ -266,4 +266,55 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
         }
 
     }
+
+
+    @Override
+    public ResponseResult findOne(Integer id) {
+        //1.检查参数
+        if(id==null || id==0){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+        //2.判断用户是否登录
+        if(WmThreadLocalUtils.getUser()==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
+        }
+
+        //3.执行查询
+        WmNews wmNews = getById(id);
+        ResponseResult responseResult = ResponseResult.okResult(wmNews);
+        responseResult.setHost(webSite); //设置域名前缀，将素材数据回显到页面上
+
+        return responseResult;
+    }
+
+
+    @Override
+    public ResponseResult delOne(Integer id) {
+        //1.检查参数
+        if(id==null || id==0){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+        //2.判断用户是否登录
+        if(WmThreadLocalUtils.getUser()==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
+        }
+
+        //3.查询数据判断是否存在
+        WmNews wmNews = getById(id);
+        if(wmNews==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
+        }
+
+        //4.判断文章的状态是否能进行删除。 状态为已发布并且已上架的文章不能删除。
+        if(wmNews.getStatus().equals(WmNews.Status.PUBLISHED.getCode()) && wmNews.getEnable().equals(WemediaConstants.WM_NEWS_ENABLE_UP)){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"文章已发布已上架不能删除");
+        }
+
+        //5.删除关联关系
+        wmNewsMaterialMapper.delete(Wrappers.<WmNewsMaterial>lambdaQuery().eq(WmNewsMaterial::getNewsId,id));
+
+        //6.删除自媒体文章
+        removeById(id);
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
+    }
 }

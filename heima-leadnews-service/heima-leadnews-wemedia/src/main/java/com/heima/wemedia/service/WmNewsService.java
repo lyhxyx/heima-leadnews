@@ -22,4 +22,18 @@ public interface WmNewsService extends IService<WmNews> {
      * @return
      */
     ResponseResult submit(WmNewsDto dto, Short isSumit);
+
+    /**
+     * 查询文章详情
+     * @param id
+     * @return
+     */
+    ResponseResult findOne(Integer id);
+
+    /**
+     * 删除文章
+     * @param id
+     * @return
+     */
+    ResponseResult delOne(Integer id);
 }

@@ -20,4 +20,7 @@ public class WemediaConstants {
 
     public static final Short WM_CONTENT_REFERENCE = 0; //正文（内容）引用
     public static final Short WM_COVER_REFERENCE = 1; //封面（主图）引用
+
+    public static final Short WM_NEWS_ENABLE_UP = 1;//文章上架状态
+    public static final Short WM_NEWS_ENABLE_DOWN = 0; //文章下架状态
 }

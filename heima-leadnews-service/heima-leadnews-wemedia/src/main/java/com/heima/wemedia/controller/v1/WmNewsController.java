@@ -6,10 +6,7 @@ import com.heima.model.wemedia.dtos.WmNewsPageReqDto;
 import com.heima.model.wemedia.pojos.WmNews;
 import com.heima.wemedia.service.WmNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/news/")
@@ -31,5 +28,17 @@ public class WmNewsController {
         } else {
             return wmNewsService.submit(dto,WmNews.Status.NORMAL.getCode());// 保存草稿
         }
+    }
+
+
+    @GetMapping("/one/{id}")
+    public ResponseResult findOne(@PathVariable("id") Integer id){
+        return wmNewsService.findOne(id);
+    }
+
+
+    @GetMapping("/del_news/{id}")
+    public ResponseResult delOne(@PathVariable("id") Integer id){
+        return wmNewsService.delOne(id);
     }
 }
