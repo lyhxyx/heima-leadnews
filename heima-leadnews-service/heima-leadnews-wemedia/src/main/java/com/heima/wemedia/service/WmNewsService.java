@@ -2,6 +2,7 @@ package com.heima.wemedia.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.heima.model.common.dtos.ResponseResult;
+import com.heima.model.wemedia.dtos.WmNewsDto;
 import com.heima.model.wemedia.dtos.WmNewsPageReqDto;
 import com.heima.model.wemedia.pojos.WmNews;
 
@@ -13,4 +14,12 @@ public interface WmNewsService extends IService<WmNews> {
      * @return
      */
     ResponseResult list(WmNewsPageReqDto dto);
+
+    /**
+     * 提交审核或保存草稿
+     * @param dto
+     * @param isSumit 0-表示保存草稿， 1-提交审核
+     * @return
+     */
+    ResponseResult submit(WmNewsDto dto, Short isSumit);
 }

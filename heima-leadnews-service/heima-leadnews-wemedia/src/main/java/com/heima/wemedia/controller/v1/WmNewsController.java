@@ -1,7 +1,9 @@
 package com.heima.wemedia.controller.v1;
 
 import com.heima.model.common.dtos.ResponseResult;
+import com.heima.model.wemedia.dtos.WmNewsDto;
 import com.heima.model.wemedia.dtos.WmNewsPageReqDto;
+import com.heima.model.wemedia.pojos.WmNews;
 import com.heima.wemedia.service.WmNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,4 +24,12 @@ public class WmNewsController {
         return wmNewsService.list(dto);
     }
 
+    @PostMapping("/submit")
+    public ResponseResult submit(@RequestBody WmNewsDto dto){
+        if(dto.getStatus().equals(WmNews.Status.SUBMIT.getCode())){
+            return wmNewsService.submit(dto, WmNews.Status.SUBMIT.getCode()); //提交文章
+        } else {
+            return wmNewsService.submit(dto,WmNews.Status.NORMAL.getCode());// 保存草稿
+        }
+    }
 }
