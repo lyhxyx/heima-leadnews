@@ -76,7 +76,7 @@ public class ApArticleServiceImpl extends ServiceImpl<ApArticleMapper, ApArticle
             }
 
             //更新ap_article
-            updateById(article);
+            updateById(apArticle);
 
             //更新ap_article_content
             ApArticleContent ApArticleContentUpdate = new ApArticleContent(); //构建要更新的数据
