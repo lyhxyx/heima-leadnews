@@ -16,10 +16,12 @@ import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.wemedia.pojos.WmNews;
 import com.heima.model.wemedia.pojos.WmUser;
 import com.heima.utils.common.SensitiveWordUtil;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class WmNewsAutoScanServiceImpl implements WmNewsAutoScanService {
 
@@ -39,7 +42,8 @@ public class WmNewsAutoScanServiceImpl implements WmNewsAutoScanService {
     @Value("${file.oss.web-site}")
     private String webSite;
     
-    
+
+    @GlobalTransactional
     @Override
     public void wmNewAutoScanById(Integer id) {
         //第一部分：准入校验

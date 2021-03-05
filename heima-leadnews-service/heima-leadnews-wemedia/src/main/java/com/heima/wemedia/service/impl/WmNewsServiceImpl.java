@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.heima.common.constants.admin.NewsAutoScanConstants;
 import com.heima.common.constants.wemedia.WemediaConstants;
 import com.heima.model.common.dtos.PageResponseResult;
 import com.heima.model.common.dtos.ResponseResult;
@@ -25,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -246,6 +248,9 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
     @Autowired
     private WmNewsMaterialMapper wmNewsMaterialMapper;
 
+    @Autowired
+    private KafkaTemplate<String,String> kafkaTemplate;
+
     //保存或者更新文章
     private void saveOrUpdateWmNews(WmNews wmNews, Short isSumit) {
         wmNews.setUserId(WmThreadLocalUtils.getUser().getId());
@@ -253,16 +258,20 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
         wmNews.setSubmitedTime(new Date());
         wmNews.setStatus(isSumit);//保存草稿或提交审核
         wmNews.setEnable((short)1); //设置为上架状态
-
+        boolean flag = false;
         if (wmNews.getId()!=null && wmNews.getId()>0){ //如果ID存储应该修改文章
             //删除之前，先删除文章和素材的关系
             wmNewsMaterialMapper.delete(Wrappers.<WmNewsMaterial>lambdaQuery().eq(WmNewsMaterial::getNewsId,wmNews.getId() ));
 
             //根据ID更新文章
-            updateById(wmNews);
+            flag = updateById(wmNews);
 
         } else { //如果ID无值应该保存文章
-            save(wmNews);
+            flag = save(wmNews);
+        }
+
+        if(flag && isSumit.equals(WmNews.Status.SUBMIT.getCode())) { //文章更新成功并且是提交审核状态，才将newsId生产到kafka
+            kafkaTemplate.send(NewsAutoScanConstants.WM_NEWS_AUTO_SCAN_TOPIC,wmNews.getId()+"");
         }
 
     }

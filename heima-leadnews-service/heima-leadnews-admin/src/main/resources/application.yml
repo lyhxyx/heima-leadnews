@@ -3,6 +3,12 @@ server:
 spring:
   application:
     name: leadnews-admin
+  kafka:
+    bootstrap-servers: 192.168.200.130:9092
+    consumer:
+      group-id: ${spring.application.name}-kafka-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/leadnews_admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
@@ -13,6 +19,11 @@ spring:
       discovery:
         server-addr: 192.168.200.130:8848
 # 设置Mapper接口所对应的XML文件位置，如果你在Mapper接口中有自定义方法，需要进行该配置
+    alibaba:
+      seata:
+        tx-service-group: heima_leadnews_tx_group
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   # 设置别名包扫描路径，通过该属性可以给包中的类注册别名
