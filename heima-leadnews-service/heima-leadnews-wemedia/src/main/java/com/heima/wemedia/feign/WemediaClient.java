@@ -1,5 +1,6 @@
 package com.heima.wemedia.feign;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.heima.apis.wemedia.IWemediaClient;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
@@ -9,6 +10,10 @@ import com.heima.wemedia.service.WmNewsService;
 import com.heima.wemedia.service.WmUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 自媒体微服务对外提供接口的controller（虽然命名为Client，但是还是controller）
@@ -66,5 +71,20 @@ public class WemediaClient implements IWemediaClient {
     @Override
     public WmUser findWmUserById(@PathVariable("id") Long id){
         return wmUserService.getById(id);
+    }
+
+    /**
+     * 查询待发布的文章ID集合
+     * @return
+     */
+    @GetMapping("/api/v1/news/findRelease")
+    @Override
+    public List<Integer> findRelease(){
+        //查询待发布的文章ID（状态为4/8并且发布时间小于当前系统时间）
+        List<WmNews> wmNewsList = wmNewsService.list(Wrappers.<WmNews>lambdaQuery()
+                .in(WmNews::getStatus, WmNews.Status.ADMIN_SUCCESS.getCode(), WmNews.Status.SUCCESS.getCode())
+                .lt(WmNews::getPublishTime, new Date()).select(WmNews::getId));
+        List<Integer> idList = wmNewsList.stream().map(x -> x.getId()).collect(Collectors.toList());
+        return idList;
     }
 }

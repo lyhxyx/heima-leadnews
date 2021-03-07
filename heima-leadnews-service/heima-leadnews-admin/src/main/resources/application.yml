@@ -31,3 +31,9 @@ mybatis-plus:
 file:
   oss:
     web-site: https://hmleadnews371.oss-cn-beijing.aliyuncs.com/
+xxljob:
+  admin:
+    addresses: http://192.168.200.130:8888/xxl-job-admin
+  executor:
+    appname: lead-news-admin-executor
+    port: 9999

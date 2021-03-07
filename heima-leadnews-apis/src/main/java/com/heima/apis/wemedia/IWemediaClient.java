@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @FeignClient("leadnews-wemedia")
 public interface IWemediaClient {
 
@@ -52,4 +54,11 @@ public interface IWemediaClient {
      */
     @GetMapping("/api/v1/user/findOne/{id}")
     WmUser findWmUserById(@PathVariable("id") Long id);
+
+    /**
+     * 查询待发布的文章ID集合
+     * @return
+     */
+    @GetMapping("/api/v1/news/findRelease")
+    List<Integer> findRelease();
 }
