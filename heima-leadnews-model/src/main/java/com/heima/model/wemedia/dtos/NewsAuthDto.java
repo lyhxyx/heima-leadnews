@@ -14,4 +14,14 @@ public class NewsAuthDto extends PageRequestDto {
      * 状态
      */
     private Short status;
+
+    /**
+     * 文章id
+     */
+    private Integer id;
+
+    /**
+     * 失败原因
+     */
+    private String msg;
 }

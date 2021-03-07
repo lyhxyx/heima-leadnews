@@ -53,4 +53,19 @@ public interface WmNewsService extends IService<WmNews> {
      * @return
      */
     ResponseResult findList(NewsAuthDto dto);
+
+    /**
+     * 根据文章ID查询文章详情vo
+     * @param id
+     * @return
+     */
+    ResponseResult findWmNewsVo(Integer id);
+
+    /**
+     * 人工审核自媒体文章
+     * @param dto
+     * @param status
+     * @return
+     */
+    ResponseResult auth(NewsAuthDto dto, Short status);
 }

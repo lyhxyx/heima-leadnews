@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heima.common.constants.admin.NewsAutoScanConstants;
+import com.heima.common.constants.message.WmNewsMessageConstants;
 import com.heima.common.constants.wemedia.WemediaConstants;
 import com.heima.model.common.dtos.PageResponseResult;
 import com.heima.model.common.dtos.ResponseResult;
@@ -23,6 +24,7 @@ import com.heima.utils.threadlocal.WmThreadLocalUtils;
 import com.heima.wemedia.mapper.WmMaterialMapper;
 import com.heima.wemedia.mapper.WmNewsMapper;
 import com.heima.wemedia.mapper.WmNewsMaterialMapper;
+import com.heima.wemedia.mapper.WmUserMapper;
 import com.heima.wemedia.service.WmNewsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -31,10 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -350,6 +349,12 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
 
         //4.修改文章状态，同步到app端（后期做）TODO
         if(dto.getEnable() != null && dto.getEnable() > -1 && dto.getEnable() < 2){
+
+            //将修改的文章、上下架状态存放到kafka里
+            Map map = new HashMap();
+            map.put("articleId", wmNews.getArticleId());
+            map.put("enable",dto.getEnable());
+            kafkaTemplate.send(WmNewsMessageConstants.WM_NEWS_UP_OR_DOWN_TOPIC, JSON.toJSONString(map));
             update(Wrappers.<WmNews>lambdaUpdate().eq(WmNews::getId,dto.getId()).set(WmNews::getEnable,dto.getEnable()));
         }
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
@@ -383,5 +388,64 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
         responseResult.setData(wmNewsVoList);
         responseResult.setHost(webSite);
         return responseResult;
+    }
+
+    @Autowired
+    private WmUserMapper wmUserMapper;
+
+
+    @Override
+    public ResponseResult findWmNewsVo(Integer id) {
+        //1.检查参数
+        if(id==null ||id==0){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+        
+        //2.根据ID查询自媒体文章
+        WmNews wmNews = getById(id);
+        if(wmNews==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
+        }
+
+        //3.设置作者名
+        WmUser wmUser = wmUserMapper.selectById(wmNews.getUserId());
+        WmNewsVo wmNewsVo = new WmNewsVo();
+        BeanUtils.copyProperties(wmNews,wmNewsVo);
+        if(wmUser!=null){
+            wmNewsVo.setAuthorName(wmUser.getName());
+        }
+
+        //4.响应数据
+        ResponseResult responseResult = ResponseResult.okResult(wmNewsVo);
+        responseResult.setHost(webSite);
+        
+        return responseResult;
+    }
+
+
+    @Override
+    public ResponseResult auth(NewsAuthDto dto, Short status) {
+        //1.判断参数
+        if(dto==null || dto.getId()==null || dto.getId()==0){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.查询自媒体文章是否存在
+        WmNews wmNews = getById(dto.getId());
+        if(wmNews==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
+        }
+
+        //3.如果审核失败要设置reason
+        WmNews wmNewsDB = new WmNews();
+        if(StringUtils.isNotBlank(dto.getMsg())){
+            wmNewsDB.setReason(dto.getMsg());
+        }
+        wmNewsDB.setStatus(status);
+
+        //4.执行更新
+        update(wmNewsDB, Wrappers.<WmNews>lambdaUpdate().eq(WmNews::getId,dto.getId()));
+
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 }
