@@ -165,10 +165,13 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
             int size = contentImageList.size();
             if(size>=3){ //多图布局时，取3张图片
                 images = contentImageList.stream().limit(3).collect(Collectors.toList());
+                wmNews.setType(WemediaConstants.WM_NEWS_MANY_IMAGE);
             } else if(size>=1 &&size<3){ //单图布局时，取1张图片
                 images = contentImageList.stream().limit(1).collect(Collectors.toList());
+                wmNews.setType(WemediaConstants.WM_NEWS_SINGLE_IMAGE);
             } else { //无图布局
                 images = new ArrayList<>();
+                wmNews.setType(WemediaConstants.WM_NEWS_NONE_IMAGE);
             }
 
             if(images.size()>0){ //如果封面图片内有值
