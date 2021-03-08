@@ -10,6 +10,7 @@ import com.heima.article.service.ApArticleService;
 import com.heima.common.constants.article.ArticleConstants;
 import com.heima.model.article.dtos.ArticleDto;
 import com.heima.model.article.dtos.ArticleHomeDto;
+import com.heima.model.article.dtos.ArticleInfoDto;
 import com.heima.model.article.pojos.ApArticle;
 import com.heima.model.article.pojos.ApArticleConfig;
 import com.heima.model.article.pojos.ApArticleContent;
@@ -23,7 +24,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -135,5 +138,36 @@ public class ApArticleServiceImpl extends ServiceImpl<ApArticleMapper, ApArticle
         ResponseResult responseResult = ResponseResult.okResult(apArticleList);
         responseResult.setHost(webSite);
         return responseResult;
+    }
+    
+
+
+    @Override
+    public ResponseResult loadInfo(ArticleInfoDto dto) {
+        //1.检查参数
+        if(dto==null || dto.getArticleId()==null || dto.getArticleId()==0){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+        
+        //2.查询文章配置信息判断是否存在
+        ApArticleConfig apArticleConfig = apArticleConfigMapper.selectOne(Wrappers.<ApArticleConfig>lambdaQuery().eq(ApArticleConfig::getArticleId, dto.getArticleId()));
+        if(apArticleConfig==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST, "文章配置不存在");
+        }
+        
+        //3.判断文章状态是否已下架已删除
+        if(apArticleConfig.getIsDown() || apArticleConfig.getIsDelete()){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID, "当前文章不可用");
+        }
+        
+        //4.查询文章内容
+        ApArticleContent apArticleContent = apArticleContentMapper.selectOne(Wrappers.<ApArticleContent>lambdaQuery().eq(ApArticleContent::getArticleId, dto.getArticleId()));
+
+        //5.封装响应数据并响应
+        Map map = new HashMap<>();
+        map.put("config", apArticleConfig);
+        map.put("content", apArticleContent);
+
+        return ResponseResult.okResult(map);
     }
 }

@@ -39,4 +39,10 @@ public class ArticleClient implements IArticleClient {
     public ResponseResult saveArticle(@RequestBody ArticleDto articleDto){
         return apArticleService.saveArticle(articleDto);
     }
+
+    @Override
+    @GetMapping("/api/v1/author/{id}")
+    public ApAuthor findOne(@PathVariable("id") Integer id){
+        return apAuthorService.getById(id);
+    }
 }

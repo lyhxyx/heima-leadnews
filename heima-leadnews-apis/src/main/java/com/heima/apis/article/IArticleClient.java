@@ -36,4 +36,12 @@ public interface IArticleClient {
      */
     @PostMapping("/api/v1/article/save")
     public ResponseResult saveArticle(@RequestBody ArticleDto articleDto);
+
+    /**
+     * 根据作者ID查询作者
+     * @param id
+     * @return
+     */
+    @GetMapping("/api/v1/author/{id}")
+    public ApAuthor findOne(@PathVariable("id") Integer id);
 }
