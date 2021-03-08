@@ -31,3 +31,8 @@ mybatis-plus:
   global-config:
     datacenter-id: 1
     workerId: 1
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+file:
+  oss:
+    web-site: https://hmleadnews371.oss-cn-beijing.aliyuncs.com/
