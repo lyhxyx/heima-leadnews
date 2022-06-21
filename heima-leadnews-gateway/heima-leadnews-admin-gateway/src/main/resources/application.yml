@@ -1,0 +1,28 @@
+server:
+  port: 6001  # 服务端口号
+
+spring:
+  application:
+    name: leadnews-admin-gateway  # 服务名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848  # 注册中心
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':  #匹配所有请求
+            allowOrigins: "*"  # 跨域处理  允许所有的域
+            allowMethods:  # 支持所有的方法
+            - GET
+            - POST
+            - PUT
+            - DELETE
+      routes:
+      # 平台管理
+      - id: admin
+        url: lb://leadnews-admin
+        predicates:
+        - path=/admin/**
+        filters:
+        - StripPrefix= 1
