@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.heima</groupId>
-    <artifactId>heima-leadnews-371</artifactId>
+    <artifactId>heima-leadnews-371-lhy</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
@@ -14,6 +14,7 @@
         <module>heima-leadnews-apis</module>
         <module>heima-leadnews-model</module>
         <module>heima-leadnews-service</module>
+        <module>heima-leadnews-gateway</module>
     </modules>
 
     <!-- 继承Spring boot工程 -->

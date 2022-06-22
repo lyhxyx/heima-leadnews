@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>heima-leadnews-371</artifactId>
+        <artifactId>heima-leadnews-371-lhy</artifactId>
         <groupId>com.heima</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>heima-leadnews-admin</module>
+        <module>heima-leadnews-user</module>
     </modules>
     <dependencies>
         <!-- 引入依赖模块 -->
@@ -37,6 +38,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
     </dependencies>
 
