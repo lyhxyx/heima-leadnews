@@ -1,9 +1,9 @@
 package com.heima.admin.controller.v1;
 
+import com.heima.admin.config.exception.CustomException;
 import com.heima.admin.service.AdChannelService;
-import com.heima.common.config.exception.CustomException;
 import com.heima.model.admin.dtos.AdChannelDtos;
-import com.heima.model.admin.pojo.AdChannel;
+import com.heima.model.admin.pojos.AdChannel;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
 import io.swagger.annotations.Api;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/channel/")
 @Api(value = "频道管理",tags = "channel",description = "频道管理API")
 public class AdChannelController{
+
     @Autowired
     private AdChannelService adChannelService;
     /**
@@ -56,6 +57,10 @@ public class AdChannelController{
     @GetMapping("del/{id}")
     @ApiOperation("删除频道")
     public ResponseResult deleteById(@PathVariable("id") Integer id) {
+        //自定义异常的处理
+        if(true){
+         throw new CustomException(AppHttpCodeEnum.DATA_EXIST);
+        }
         return adChannelService.deleteById(id);
     }
 }

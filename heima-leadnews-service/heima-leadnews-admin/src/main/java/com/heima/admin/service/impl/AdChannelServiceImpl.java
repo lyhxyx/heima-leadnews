@@ -2,13 +2,12 @@ package com.heima.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heima.admin.mapper.AdChannelMapper;
 import com.heima.admin.service.AdChannelService;
 import com.heima.model.admin.dtos.AdChannelDtos;
-import com.heima.model.admin.pojo.AdChannel;
+import com.heima.model.admin.pojos.AdChannel;
 import com.heima.model.common.dtos.PageResponseResult;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;

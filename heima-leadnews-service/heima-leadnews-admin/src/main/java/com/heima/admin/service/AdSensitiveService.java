@@ -2,7 +2,7 @@ package com.heima.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.heima.model.admin.dtos.AdSensitiveDtos;
-import com.heima.model.admin.pojo.AdSensitive;
+import com.heima.model.admin.pojos.AdSensitive;
 import com.heima.model.common.dtos.ResponseResult;
 
 /**

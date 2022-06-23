@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heima.admin.mapper.AdUserMapper;
 import com.heima.admin.service.AdUserService;
+import com.heima.admin.utils.AppJwtUtil;
 import com.heima.model.admin.dtos.AdUserDtos;
-import com.heima.model.admin.pojo.AdUser;
+import com.heima.model.admin.pojos.AdUser;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
-import com.heima.utils.common.AppJwtUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -54,7 +54,7 @@ public class AdUserServiceImpl extends ServiceImpl<AdUserMapper,AdUser> implemen
         //密码匹配（相同）
         if (password.equals(adUser.getPassword())){
             Map<String, Object> map = new HashMap<>();
-            map.put("token",AppJwtUtil.getToken(adUser.getId().longValue()));
+            map.put("token", AppJwtUtil.getToken(adUser.getId().longValue()));
             adUser.setPassword("");
             adUser.setSalt("");
             map.put("user",adUser);

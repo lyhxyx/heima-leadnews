@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848  # 注册中心
+        server-addr: 192.168.0.102:8848  # 注册中心
     gateway:
       globalcors:
         cors-configurations:
@@ -21,8 +21,15 @@ spring:
       routes:
       # 平台管理
       - id: admin
-        url: lb://leadnews-admin
+        uri: lb://heima-leadnews-admin
         predicates:
         - path=/admin/**
+        filters:
+        - StripPrefix= 1
+      # app用户
+      - id: user
+        uri: lb://heima-leadnews-user
+        predicates:
+        - Path=/user/**
         filters:
         - StripPrefix= 1

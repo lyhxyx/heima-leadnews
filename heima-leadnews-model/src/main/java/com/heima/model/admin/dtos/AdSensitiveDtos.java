@@ -18,3 +18,5 @@ public class AdSensitiveDtos extends PageRequestDto {
     //敏感词名称
     private String name;
 }
+
+

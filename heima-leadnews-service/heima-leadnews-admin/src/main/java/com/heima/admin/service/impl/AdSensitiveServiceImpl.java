@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heima.admin.mapper.AdSensitiveMapper;
 import com.heima.admin.service.AdSensitiveService;
 import com.heima.model.admin.dtos.AdSensitiveDtos;
-import com.heima.model.admin.pojo.AdSensitive;
+import com.heima.model.admin.pojos.AdSensitive;
 import com.heima.model.common.dtos.PageResponseResult;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
