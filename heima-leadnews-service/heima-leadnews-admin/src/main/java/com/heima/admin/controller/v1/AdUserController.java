@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
  * Copyright: Copyright (c) 2021
  */
 @RestController
-@RequestMapping("login")
+@RequestMapping("/login")
 @Api(value = "用户登录",tags = "login",description = "用户登录api")
 public class AdUserController {
     @Autowired
     private AdUserService adUserService;
-    @PostMapping("in")
+    @PostMapping("/in")
     @ApiOperation("用户登录")
     public ResponseResult login(@RequestBody AdUserDtos adUserDtos){
         return adUserService.login(adUserDtos);

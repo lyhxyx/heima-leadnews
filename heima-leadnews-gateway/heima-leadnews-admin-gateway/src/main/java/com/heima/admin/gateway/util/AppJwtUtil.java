@@ -1,4 +1,4 @@
-package com.heima.admin.gateway.utils;
+package com.heima.admin.gateway.util;
 
 import io.jsonwebtoken.*;
 

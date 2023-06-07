@@ -1,13 +1,12 @@
 server:
   port: 6001  # 服务端口号
-
 spring:
   application:
     name: leadnews-admin-gateway  # 服务名
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.0.102:8848  # 注册中心
+        server-addr: 192.168.200.130:8848  # 注册中心
     gateway:
       globalcors:
         cors-configurations:
@@ -20,16 +19,16 @@ spring:
             - DELETE
       routes:
       # 平台管理
-      - id: admin
-        uri: lb://heima-leadnews-admin
-        predicates:
-        - path=/admin/**
-        filters:
-        - StripPrefix= 1
+        - id: admin
+          uri: lb://heima-leadnews-admin
+          predicates:
+            - Path=/admin/**
+          filters:
+            - StripPrefix= 1
       # app用户
-      - id: user
-        uri: lb://heima-leadnews-user
-        predicates:
-        - Path=/user/**
-        filters:
-        - StripPrefix= 1
+        - id: user
+          uri: lb://heima-leadnews-user
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix= 1

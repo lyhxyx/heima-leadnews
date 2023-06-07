@@ -23,12 +23,12 @@ import org.springframework.web.bind.annotation.*;
  * Copyright: Copyright (c) 2021
  */
 @RestController
-@RequestMapping("api/v1/sensitive/")
+@RequestMapping("api/v1/sensitive")
 @Api(value = "敏感词设置",tags = "adSensitive",description = "敏感词设置api")
 public class AdSensitiveController {
     @Autowired
     private AdSensitiveService adSensitiveService;
-    @PostMapping("list")
+    @PostMapping("/list")
     @ApiOperation("敏感词设置分页查询")
 public ResponseResult findPageByName(@RequestBody AdSensitiveDtos adSensitiveDtos){
     return adSensitiveService.findPageByName(adSensitiveDtos);

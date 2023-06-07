@@ -1,0 +1,32 @@
+package com.heima.apis.wemedia;
+
+import com.heima.model.common.dtos.ResponseResult;
+import com.heima.model.wemedia.pojos.WmUser;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+/**
+ * 自媒体fegin接口
+ */
+@FeignClient("heima-leadnews-wemedia")
+public interface IWemediaClient {
+
+    /**
+     * 创建自媒体用户
+     * @param wmUser
+     * @return
+     */
+    @PostMapping("/api/v1/user/save")
+    public ResponseResult save(@RequestBody WmUser wmUser) ;
+
+    /**
+     * 根据用户名查询自媒体用户接口
+     * @param name
+     * @return
+     */
+    @GetMapping("/api/v1/user/findByName/{name}")
+    public WmUser findByName(@PathVariable("name") String name);
+}

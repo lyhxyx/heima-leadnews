@@ -1,6 +1,6 @@
 package com.heima.admin.gateway.filter;
 
-import com.heima.admin.gateway.utils.AppJwtUtil;
+import com.heima.admin.gateway.util.AppJwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -17,9 +17,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.function.Consumer;
 
-@Component
 @Slf4j
-public class AuthorizeFilter implements GlobalFilter, Ordered {
+@Component
+public class AuthFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         //1.获取request和response对象

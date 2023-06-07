@@ -38,23 +38,28 @@ public class AdUserServiceImpl extends ServiceImpl<AdUserMapper,AdUser> implemen
      */
     @Override
     public ResponseResult login(AdUserDtos adUserDtos) {
+        if (adUserDtos==null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
         //校验参数
-        if (StringUtils.isNotBlank(adUserDtos.getName())||StringUtils.isNotBlank(adUserDtos.getPassword())){
-            ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"用户名或密码错误");
+        if (StringUtils.isBlank(adUserDtos.getName())||StringUtils.isBlank(adUserDtos.getPassword())){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
         }
         //获取用户名
         AdUser adUser=getOne(Wrappers.<AdUser>lambdaQuery().eq(AdUser::getName, adUserDtos.getName()));
         if (adUser==null){
-            ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST);
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST,"用户不存在");
         }
-        //对比校验密码
-        String salt = adUser.getSalt();
+        //对比校验密码  登陆成功设置tocken值  失败响应密码错误
         String password = adUserDtos.getPassword();
-        password=DigestUtils.md5DigestAsHex((password+salt).getBytes());
+        String salt = adUser.getSalt();
+        String passwordBCR=DigestUtils.md5DigestAsHex((password+salt).getBytes());
+        String password1 = adUser.getPassword();
         //密码匹配（相同）
-        if (password.equals(adUser.getPassword())){
-            Map<String, Object> map = new HashMap<>();
-            map.put("token", AppJwtUtil.getToken(adUser.getId().longValue()));
+        if (passwordBCR.equals(password1)){
+            String token = AppJwtUtil.getToken(adUser.getId().longValue());
+            Map map=new HashMap();
+            map.put("token", token);
             adUser.setPassword("");
             adUser.setSalt("");
             map.put("user",adUser);
